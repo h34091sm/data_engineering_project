@@ -12,7 +12,8 @@ Once the final databases have been created, some query files have been provided 
     order_query.sql - extracts information regarding the orders entity
     store_query.sql - extracts information regarding the store entity
     line_item_query.sql - extracts information regarding the line items entity
-    billing_query.sql - extracts information regarding the billing details 
+    billing_query.sql - extracts information regarding the billing details
+    customers_query.sql - extracts information regarding the customers 
 
 
 In order to run the pipeline and produce the databases, do the following:

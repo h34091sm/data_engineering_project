@@ -23,6 +23,7 @@ all_stores = []
 all_billing = []
 all_shipping = []
 all_items = []
+all_customers = []
 
 
 # for each datum in data, extract only the relevant information and store in lists
@@ -93,6 +94,27 @@ for datum in data:
     }
     all_shipping.append(shipping_entry)
 
+
+    # Customer entity - track the orders for customers and their frequency of purchase
+    full_reference = order.get('customerReference')
+    reference_value = int(full_reference[len(full_reference) - 10: len(full_reference)])
+    customer_entry = {
+        "reference": reference_value,
+        "customer_name": f"{billing.get('firstName', '')} {billing.get('lastName', '')}".strip(),
+        "phone_number": billing.get('phone'),
+        "address": ", ".join(filter(None, [
+            billing_addr.get('line1'),
+            billing_addr.get('city'),
+            billing_addr.get('county'),
+            billing_addr.get('country'),
+            billing_addr.get('postcode')
+        ])),
+        "order_id": order_id,
+        "order_total": traverse_dict(order, 'amounts', 'total')
+    }
+    all_customers.append(customer_entry)
+
+
     # List of line items 
     for item in order.get('lineItems', []):
         item_entry = {
@@ -114,7 +136,8 @@ tables = {
     "stores": all_stores,
     "billing": all_billing,
     "shipping": all_shipping,
-    "line_items": all_items
+    "line_items": all_items,
+    "customers": all_customers
 }
 
 os.makedirs("output", exist_ok=True)

@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS stores;
 DROP TABLE IF EXISTS billing;
 DROP TABLE IF EXISTS shipping;
+DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS line_items;
 
                   
@@ -56,6 +57,17 @@ CREATE TABLE shipping (
     address TEXT,
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
+                  
+CREATE TABLE customers (
+    reference INTEGER PRIMARY KEY,
+    customer_name TEXT,
+    phone_number TEXT,
+    address TEXT,
+    order_id TEXT,
+    order_total REAL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+                  
 
 CREATE TABLE line_items (
     item_id TEXT PRIMARY KEY,
@@ -80,7 +92,7 @@ def load_csv_to_table(csv_path, table_name):
 
 
 csv_dir = "output"
-for table in ["events", "orders", "stores", "billing", "shipping", "line_items"]:
+for table in ["events", "orders", "stores", "billing", "shipping", "customers", "line_items"]:
     csv_path = os.path.join(csv_dir, f"{table}.csv")
     print(csv_path)
     load_csv_to_table(csv_path, table)
