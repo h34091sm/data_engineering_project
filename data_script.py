@@ -46,8 +46,7 @@ for datum in data:
         "currency": order.get('currency'),
         "channel": order.get('channel'),
         "customer_reference": order.get('customerReference'),
-        "is_manual": order.get('isManual'),
-        "is_test": order.get('isTest')
+
     }
     all_orders.append(order_entry)
 
